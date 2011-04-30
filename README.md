@@ -10,9 +10,12 @@ Rote uses [Sintra](http://sinatrarb.com) for its clean, RESTful API and [Mongo](
 Installation
 ------------
 
-TODO Need to add Gemfile
+Requires MongoDB to be installed and running.  Still need to get config out of the Task class and into a yaml config file.
 
-Requires rubygem, sintra, mongo, yaml, json
+Use bundler to install dependancies.  From the repo's root directory run...
+
+    > bundle install
+
 
 Example
 -------

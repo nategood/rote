@@ -13,7 +13,7 @@ before do
   content_type 'text/plain' # 'text/yaml'
 end
 
-get URI_RE do 
+get URI_RE do
   Task.find(TaskRequest.new(params[:captures][0])).map { |task| task.to_yaml }
 end
 
@@ -21,7 +21,7 @@ post URI_RE do
   Task.create(TaskRequest.new(params[:captures][0]), request).to_yaml
 end
 
-delete URI_RE do 
+delete URI_RE do
   Task.delete(TaskRequest.new(params[:captures][0]))
 end
 

@@ -1,8 +1,6 @@
 require 'mongo'
 require 'yaml'
 
-# Considered using MongoMapper here but I want to eventually
-# take advantage of the schemalessness of Mongo
 class Task
   include Comparable
   def self.find (task_request)
