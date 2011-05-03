@@ -1,4 +1,6 @@
 # Task Request
+# Used to query our Task dataset
+# Commonly created from a URI
 class TaskRequest
   attr_accessor :start, :stop, :importance, :tags, :status
 
@@ -56,6 +58,6 @@ class TaskRequest
   # Get Mongo "selector" clause for this request
   def to_selector()
     # TODO expand for importance and tag filters
-    {"when" => {"$gte" => @start, "$lt" => @stop}}
+    {:when => {"$gte" => @start, "$lt" => @stop}}
   end
 end

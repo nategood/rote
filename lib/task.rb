@@ -6,29 +6,34 @@ class Task
   def self.find (task_request)
     DataStore.instance.collection.find(task_request.to_selector).map { |doc| Task.new(doc)}
   end
+  
   def self.create (task_request, http_request)
     http_request.body.rewind
-    body = http_request.body.read
-    task = Task.new({
-        'when'        => task_request.start, 
-        'what'        => body.gsub(/[!#]/,''),
-        'importance'  => body.scan(/!/).reduce(0){|count, importance| count + importance.length},
-        'tags'        => body.scan(/#\w+/).map{|t| t[1..-1]}
-      })
+    parsed = Task.parse http_request.body.read
+    parsed[:when] = task_request.start
+    task = Task.new(parsed)
     task.save
     task
   end
+  
   def self.delete (task_request)
     DataStore.instance.collection.remove(task_request.to_selector)
   end
   
+  def self.parse (task_text)
+    {
+      :what        => task_text.gsub(/[!#]/,''),
+      :importance  => task_text.scan(/!/).reduce(0){|count, importance| count + importance.length},
+      :tags        => task_text.scan(/#\w+/).map{|t| t[1..-1]}
+    }
+  end
   
   def initialize (doc)
     @doc = doc
   end
   
   def save
-    if self.has_a? 'what' and self.has_a? 'when'
+    if self.has_a? :what and self.has_a? :when
       DataStore.instance.collection.save(@doc)
     end
   end
@@ -39,7 +44,7 @@ class Task
   alias :has? :has_a?
   
   def priority
-    self.has? "importance" ? self.importance : 0
+    self.has? :importance ? self.importance : 0
   end
   
   def to_yaml
@@ -55,6 +60,6 @@ class Task
   end
   
   def method_missing(name, *args)
-    @doc[name.to_s]
+    @doc[name] || @doc[name.to_s]
   end
 end
