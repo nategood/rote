@@ -20,8 +20,8 @@ class TaskRequest
     # :started    => 3,
   }
 
-  FRAMES_FMT = %r{(\d+|next|last)-(days?|weeks?|months?|years?)(-ago|-from-now)?}
-  DATE_FMT = %r{\d\d/\d\d/\d\d\d\d}
+  FramesFmt = /(\d+|next|last)-(day|week|month|year)s?-(ago|from-now)?/
+  DateFmt = /\d\d-\d\d-\d\d\d\d/
 
   def initialize(frame, options = nil)
     self.parse_time_frame(frame.intern)
@@ -33,18 +33,19 @@ class TaskRequest
     if TaskRequest::ALIASES.has_key? frame
       @start  = crack_of_day + TaskRequest::ALIASES[frame][0] * 24 * 60 * 60
       @stop   = crack_of_day + TaskRequest::ALIASES[frame][1] * 24 * 60 * 60
-    elsif frame =~ self::DATE_FMT
-      @start  = Time.strftime(frame, "%d/%m/%Y")
+    elsif frame =~ self::DateFmt
+      @start  = Time.strftime(frame, "%m-%d-%Y")
       @stop   = (@start + 1).to_time
-      # when self::TIME_FRAMES_RE then
-        # parts   = frame.split("-")
-        # case parts[0]
-        #   when :next then
-        #     i = 1
-        #   when :last then
-        #     i = -1
+    elsif frame =~ self::FramesFmt
+      parts = frame.scan(self::FramesFmt)
+      if parts && parts.length >= 2
+        scalar = parts[0] # TODO if non numeric convert next into "+1" and last into "-1"
+        interval = parts[1] 
+        scalar *= -1 if parts.length == 3 && parts[2].intern == :ago
+        # TODO 
         # @start  = parts[]
         # @stop   = parts[]
+      end
     end    
   end
   # def parse_options(options)

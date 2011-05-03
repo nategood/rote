@@ -29,13 +29,13 @@ Example
 
 The syntax for adding tasks is very clean.  Here is an example curl request to add a new task to remind us to pick up the laundry tomorrow
 
-    curl -X POST -d "Pick up the #laundry!!" http://example.com/tomorrow
+    > curl -X POST -d "Pick up the #laundry!!" http://example.com/tomorrow
 
 We'll start by looking at the task itself.  The message we `POST` is simple plain text.  The `#` indicates the presence of a tag.  This tag word is indexed and can be used in the future to categorize and locate notes quickly.  Finally, all notes can be followed up with a series of `!`s.  The `!` indicates priority or how important the item is.  The more `!`, the more important.  This can be used to prioritize notes/tasks
 
 Now lets fetch all the tasks for tomorrow
 
-    curl http://example.com/tomorrow
+    > curl http://example.com/tomorrow
 
 Which returns a YAML formatted response...
 
@@ -53,6 +53,20 @@ General Syntax for Notes
 General Syntax for URL
 
     http://example.com/time-frame
+
+Date Endpoints
+--------------
+
+ - http://example.com/today
+ - http://example.com/yesterday
+ - http://example.com/tomorrow
+ - http://example.com/10-20-2011
+ - http://example.com/two-days-from-now
+ - http://example.com/next-week
+ - http://example.com/two-days-ago
+ - http://example.com/last-month
+ - http://example.com/this-week
+ 
 
 Future
 ------
