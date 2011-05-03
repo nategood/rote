@@ -21,9 +21,8 @@ Run it
 
 To get a basic version of the Sinatra app running, from the repo's root directory run...
 
-    > ruby -rubygems ctlr.rb
+    > rackup
 
-TODO Add rackup support
 
 Example
 -------
