@@ -37,13 +37,14 @@ Now lets fetch all the tasks for tomorrow
 
     curl http://example.com/tomorrow
 
-Or we can see all future tasks
+Which returns a YAML formatted response...
 
-    curl http://example.com/future
-
-Or tasks for a certain day
-
-    curl 
+    --- 
+    importance: 2
+    tags: 
+    - laundry
+    when: 2011-05-04 04:00:00 Z
+    what: Pick up the laundry
 
 General Syntax for Notes
 
